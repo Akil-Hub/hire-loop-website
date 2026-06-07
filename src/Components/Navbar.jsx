@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
-import { authClient } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
@@ -12,11 +12,9 @@ export default function Navbar() {
 
     const {
         data: session
-    } = authClient.useSession()
+    } = useSession()
     const user = session?.user || null
     console.log(session)
-
-    return <p>h</p>
     const handleSignOut = async () => {
         await authClient.signOut({
             fetchOptions: {

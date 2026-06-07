@@ -1,31 +1,37 @@
 "use client";
+import { Description, Radio, RadioGroup, toast } from "@heroui/react";
 
 import { Button, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
 
 export default function SignUpPage() {
+  const [role, setRole] = useState("seeker")
+
   const router = useRouter();
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget));
 
 
 
-const { data, error } = await authClient.signUp.email({
-    name: formData.name,
-    email: formData.email,
-    password:formData.password, 
-});
+    const { data, error } = await authClient.signUp.email({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      role,
+    });
 
-if (error) {
-  console.log(error)
-  
-}
-console.log(data)
+ if (error) {
+    toast.danger("Sign up failed", { description: error.message });
+    return; // ← stop here
+  }
+
+    console.log(data)
 
 
 
@@ -34,6 +40,7 @@ console.log(data)
 
 
     router.push("/auth/signIn");
+    toast.success('Account Created Successfully.')
   };
 
   const googleSignIn = () => {
@@ -133,6 +140,32 @@ console.log(data)
                 <Input placeholder="Enter your password" />
                 <FieldError />
               </TextField>
+              {/* Role */}
+              <div className="flex flex-col gap-4">
+                <Label>Subscription plan</Label>
+                <RadioGroup value={role} name="role" orientation="horizontal"  onChange={setRole}>
+                  <Radio value="seeker" >
+                    <Radio.Control>
+                      <Radio.Indicator />
+                    </Radio.Control>
+                    <Radio.Content>
+                      <Label>Seeker</Label>
+                      <Description>For side projects</Description>
+                    </Radio.Content>
+                  </Radio>
+                  <Radio value="recruiter">
+                    <Radio.Control>
+                      <Radio.Indicator />
+                    </Radio.Control>
+                    <Radio.Content>
+                      <Label>Recruiter</Label>
+                      <Description>Advanced reporting</Description>
+                    </Radio.Content>
+                  </Radio>
+                  
+                </RadioGroup>
+              </div>
+
 
               <Button
                 type="submit"

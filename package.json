@@ -14,7 +14,6 @@
     "@heroui/react": "^3.1.0",
     "@heroui/styles": "^3.1.0",
     "better-auth": "^1.6.14",
-    "kysely": "^0.29.2",
     "lucide-react": "^1.17.0",
     "mongodb": "^7.2.0",
     "motion": "^12.40.0",

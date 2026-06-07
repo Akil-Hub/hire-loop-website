@@ -7,13 +7,23 @@ const db = client.db('hire-loop-website');
 
 export const auth = betterAuth({
 
-  emailAndPassword: { 
-    enabled: true, 
+  emailAndPassword: {
+    enabled: true,
   },
 
+  user:{
+       additionalFields: {
+    role: {
+      default:'seeker',
+      input:true,
+    }
+  },
+  },
 
   database: mongodbAdapter(db, {
-    // Optional: if you don't provide a client, database transactions won't be enabled.
+    
     client
   }),
+ 
+
 });
