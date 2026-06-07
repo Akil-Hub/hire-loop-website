@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
+import { Button, Description, FieldError, Form, Input, Label, TextField, toast } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -10,18 +10,35 @@ import {
   FaLock,
   FaUser,
 } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignInPage() {
   const router = useRouter();
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
 
-    const data = Object.fromEntries(new FormData(e.currentTarget));
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
 
-    console.log(data);
 
-    router.push("/dashboard");
+
+
+const { data, error } = await authClient.signIn.email({
+    email: formData.email,
+    password:formData.password, 
+});
+
+if (error) {
+  console.log(error)
+  
+}
+console.log(data)
+
+
+
+
+    router.push("/");
+    toast.success('Singn In Successfull.')
   };
 
   const googleSignIn = () => {
@@ -140,7 +157,7 @@ export default function SignInPage() {
                 color="primary"
                 className="w-full h-12 font-semibold mt-2"
               >
-                Create Account
+                Sing In
               </Button>
 
             </Form>

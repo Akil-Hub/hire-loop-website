@@ -3,9 +3,29 @@ import { useState } from "react";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const router = useRouter()
+
+    const {
+        data: session
+    } = authClient.useSession()
+    const user = session?.user || null
+    console.log(session)
+
+    return <p>h</p>
+    const handleSignOut = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push("/");
+                },
+            },
+        });
+    };
 
     return (
         <nav className=" fixed left-0 right-0 mx-3 md:mx-6 backdrop-blur-3g rounded-xl top-3 z-40">
@@ -38,15 +58,26 @@ export default function Navbar() {
                 {/* Desktop CTA */}
                 <div className="hidden md:flex items-center gap-3">
                     <div className="w-px h-5 bg-white/20" />
-                    <Link href="/auth/signIn" className="text-sm text-[#a78bfa] hover:text-[#c4b5fd] font-medium transition-colors">
-                        Sign In
+                    {
+                        user ? <div className="flex items-center gap-1">
+                            <p>welcome {user.name}</p>
+                            <Button variant="outline" onClick={handleSignOut} className="text-sm text-[#a78bfa] hover:text-[#c4b5fd] font-medium transition-colors">
+                                Sign Out
+                            </Button>
+                        </div> : <Link href="/auth/signIn" className="text-sm text-[#a78bfa] hover:text-[#c4b5fd] font-medium transition-colors">
+                            Sign In
+                        </Link>
+                    }
+
+                    <Link href={'/auth/signUp'}>
+                        <Button
+                            className="bg-[#4f8ef7] text-white font-semibold text-sm rounded-full w-full"
+                            size="sm"
+                        >
+                            Get Started
+                        </Button>
+
                     </Link>
-                    <Button
-                        className="bg-[#4f8ef7] hover:bg-[#3b7ef0] text-white font-semibold text-sm px-5 rounded-full"
-                        size="sm"
-                    >
-                        Get Started
-                    </Button>
                 </div>
 
                 {/* Mobile Hamburger */}
@@ -89,12 +120,16 @@ export default function Navbar() {
                             <Link href="/auth/signIn" className="text-sm text-[#a78bfa] font-medium">
                                 Sign In
                             </Link>
-                            <Button
-                                className="bg-[#4f8ef7] text-white font-semibold text-sm rounded-full w-full"
-                                size="sm"
-                            >
-                                Get Started
-                            </Button>
+
+                            <Link href={'/auth/signUp'}>
+                                <Button
+                                    className="bg-[#4f8ef7] text-white font-semibold text-sm rounded-full w-full"
+                                    size="sm"
+                                >
+                                    Get Started
+                                </Button>
+
+                            </Link>
                         </li>
                     </ul>
                 </div>

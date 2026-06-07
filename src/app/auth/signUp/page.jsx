@@ -3,25 +3,37 @@
 import { Button, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-import {
-  FaGoogle,
-  FaEnvelope,
-  FaLock,
-  FaUser,
-} from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
   const router = useRouter();
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
 
-    const data = Object.fromEntries(new FormData(e.currentTarget));
 
-    console.log(data);
 
-    router.push("/dashboard");
+const { data, error } = await authClient.signUp.email({
+    name: formData.name,
+    email: formData.email,
+    password:formData.password, 
+});
+
+if (error) {
+  console.log(error)
+  
+}
+console.log(data)
+
+
+
+
+
+
+
+    router.push("/auth/signIn");
   };
 
   const googleSignIn = () => {
@@ -33,24 +45,19 @@ export default function SignUpPage() {
 
       {/* LEFT SIDE */}
       <div className="hidden pb-20 lg:flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-700 to-black px-16">
-
         <div>
           <h1 className="text-6xl font-bold text-white leading-tight">
-            Build your <br />
-            future today.
+            Build your <br /> future today.
           </h1>
-
           <p className="text-zinc-200 mt-6 max-w-md text-lg">
             Create your account and manage everything in a clean,
             modern dashboard built for productivity.
           </p>
         </div>
-
       </div>
 
       {/* RIGHT SIDE */}
       <div className="flex flex-1 items-center justify-center px-6 my-20">
-
         <div className="w-full max-w-md">
 
           {/* CARD */}
@@ -58,15 +65,8 @@ export default function SignUpPage() {
 
             {/* HEADER */}
             <div className="text-center mb-8">
-
-              <h2 className="text-3xl font-bold text-white">
-                Create Account
-              </h2>
-
-              <p className="text-zinc-400 mt-2">
-                Join thousands of users today
-              </p>
-
+              <h2 className="text-3xl font-bold text-white">Create Account</h2>
+              <p className="text-zinc-400 mt-2">Join thousands of users today</p>
             </div>
 
             {/* GOOGLE BUTTON */}
@@ -80,80 +80,59 @@ export default function SignUpPage() {
 
             {/* DIVIDER */}
             <div className="flex items-center gap-4 my-6">
-
               <div className="flex-1 h-px bg-zinc-700" />
-
-              <span className="text-xs text-zinc-400">
-                OR
-              </span>
-
+              <span className="text-xs text-zinc-400">OR</span>
               <div className="flex-1 h-px bg-zinc-700" />
-
             </div>
 
             {/* FORM */}
             <Form onSubmit={onSubmit} className="flex flex-col gap-4">
 
-        
-      {/* name */}
-      <TextField
-        isRequired
-        name="email"
-        type="email"
-        validate={(value) => {
-          if (value.length < 4) {
-            return "Please enter at least 4 character";
-          }
-          return null;
-        }}
-      >
-        <Label>Full Name</Label>
-        <Input placeholder="Enter your name" />
-        <FieldError />
-      </TextField>
+              {/* NAME */}
+              <TextField
+                name="name"
+                isRequired
+                validate={(value) =>
+                  value.length < 4 ? "Please enter at least 4 characters" : null
+                }
+              >
+                <Label>Full Name</Label>
+                <Input placeholder="Enter your name" />
+                <FieldError />
+              </TextField>
 
+              {/* EMAIL */}
+              <TextField
+                name="email"
+                type="email"
+                isRequired
+                validate={(value) =>
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
+                    ? "Please enter a valid email address"
+                    : null
+                }
+              >
+                <Label>Email</Label>
+                <Input placeholder="john@example.com" />
+                <FieldError />
+              </TextField>
 
-      {/* EMAIL */}
-      <TextField
-        isRequired
-        name="email"
-        type="email"
-        validate={(value) => {
-          if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-            return "Please enter a valid email address";
-          }
-          return null;
-        }}
-      >
-        <Label>Email</Label>
-        <Input placeholder="john@example.com" />
-        <FieldError />
-      </TextField>
-
-      {/* PASSWORD */}
-    <TextField
-        isRequired
-        minLength={8}
-        name="password"
-        type="password"
-        validate={(value) => {
-          if (value.length < 8) {
-            return "Password must be at least 8 characters";
-          }
-          if (!/[A-Z]/.test(value)) {
-            return "Password must contain at least one uppercase letter";
-          }
-          if (!/[0-9]/.test(value)) {
-            return "Password must contain at least one number";
-          }
-          return null;
-        }}
-      >
-        <Label>Password</Label>
-        <Input placeholder="Enter your password" />
-  
-        <FieldError />
-      </TextField>
+              {/* PASSWORD */}
+              <TextField
+                name="password"
+                type="password"
+                isRequired
+                validate={(value) => {
+                  if (value.length < 8) return "Password must be at least 8 characters";
+                  if (!/[A-Z]/.test(value)) return "Must contain at least one uppercase letter";
+                  if (!/[0-9]/.test(value)) return "Must contain at least one number";
+                  return null;
+                }}
+              >
+                <Label>Password</Label>
+                <Input placeholder="Enter your password" />
+                <FieldError />
+              </TextField>
 
               <Button
                 type="submit"
@@ -167,42 +146,22 @@ export default function SignUpPage() {
 
             {/* FOOTER */}
             <div className="mt-6 text-center space-y-4">
-
               <p className="text-zinc-400 text-sm">
-
                 Already have an account?
-
-                <Link
-                  href="/auth/signIn"
-                  className="text-blue-500 ml-2 hover:underline font-medium"
-                >
+                <Link href="/auth/signIn" className="text-blue-500 ml-2 hover:underline font-medium">
                   Sign In
                 </Link>
-
               </p>
-
               <p className="text-xs text-zinc-500">
-
                 By continuing you agree to our{" "}
-
-                <Link href="/terms" className="underline">
-                  Terms
-                </Link>
-
+                <Link href="/terms" className="underline">Terms</Link>
                 {" "}and{" "}
-
-                <Link href={'/auth/privacy'} className="underline">
-                  Privacy Policy
-                </Link>
-
+                <Link href="/auth/privacy" className="underline">Privacy Policy</Link>
               </p>
-
             </div>
 
           </div>
-
         </div>
-
       </div>
 
     </section>
