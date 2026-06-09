@@ -31,6 +31,7 @@ import {
 } from "@gravity-ui/icons";
 import { useRouter } from "next/navigation";
 import { toast } from "@heroui/react";
+import { createJob } from "@/lib/actions/job";
 
 const JOB_CATEGORIES = [
   "Engineering", "Design", "Marketing", "Sales",
@@ -82,7 +83,13 @@ export default function PostJobPage() {
   const [jobType, setJobType] = useState("Full-time");
   const [category, setCategory] = useState("Engineering");
   const [currency, setCurrency] = useState("USD");
+  const [isPublicalyVisable, setIsPublicalyVisable] = useState(false)
 
+
+  const mockCompany = {
+    name: 'ABC Company',
+    id: 123
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget));
@@ -94,15 +101,25 @@ export default function PostJobPage() {
       currency,
       isRemote,
       status: "active",
+      companyId:mockCompany.id,
+      isPublicalyVisable:true,
     };
 
     console.log(payload);
 
     // await your API call here
-    toast.success("Job posted successfully!", {
-      description: "Your job is now publicly visible.",
-    });
-    router.push("/dashboard/recruiter/jobs");
+    const res = await createJob(payload)
+    if (res.insertedId) {
+      toast.success("Job posted successfully!", {
+        description: "Your job is now publicly visible.",
+      });
+      setIsRemote(false)
+      router.push("/dashboard/recruiter/jobs");
+
+    }
+
+
+
   };
 
   return (
