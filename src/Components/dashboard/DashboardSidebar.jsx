@@ -1,29 +1,33 @@
 import { Button, Drawer } from "@heroui/react";
-import { LayoutSideContentLeft } from '@gravity-ui/icons';
+import { Briefcase, FileMagnifier, LayoutSideContentLeft } from '@gravity-ui/icons';
 
-import { Bars, Bell, Envelope, Gear, House, Magnifier, Person } from "@gravity-ui/icons";
+import { Bars, Bell, Envelope, Gear, House, Magnifier, Person, Search } from "@gravity-ui/icons";
+
+import Link from "next/link";
 
 
 
 const navItems = [
-    { icon: House, label: "Home" },
-    { icon: Magnifier, label: "Search" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Envelope, label: "Messages" },
-    { icon: Person, label: "Profile" },
-    { icon: Gear, label: "Settings" },
+    { icon: House, href: '/dashboard/recruiter', label: "Home" },
+    { icon: FileMagnifier, href: '/dashboard/recruiter/jobs', label: "Jobs" },
+    { icon: Bell, href: '/dashboard/recruiter/jobs/new', label: "Post A job" },
+    { icon: Envelope,  href: '/dashboard/recruiter/jobs/new',label: "Messages" },
+    { icon:Briefcase ,  href: '/dashboard/recruiter/company',label: "Company Profile" },
+    { icon: Person,  href: '/dashboard/recruiter/jobs/new',label: "Profile" },
+    { icon: Gear, href: '/dashboard/recruiter/jobs/new', label: "Settings" },
 ];
 
 const navLinks = <nav className="flex flex-col gap-1">
     {navItems.map((item) => (
-        <button
+        <Link
+
+            href={item.href}
             key={item.label}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
-            type="button"
         >
             <item.icon className="size-5 text-muted" />
             {item.label}
-        </button>
+        </Link>
     ))}
 </nav>
 

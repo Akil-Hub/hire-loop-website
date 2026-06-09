@@ -88,7 +88,7 @@ export default function PostJobPage() {
 
   const mockCompany = {
     name: 'ABC Company',
-    id: 123
+    id: '123'
   }
   const onSubmit = async (e) => {
     e.preventDefault();
