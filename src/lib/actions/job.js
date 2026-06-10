@@ -1,17 +1,15 @@
 'use server'
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-export const createJob = async(newJobData)=>{
-    const res = await fetch(`${baseUrl}/api/jobs`,{
-        method:'POST',
-        headers:{
-            'content-type':'application/json',
-        },
-        body:JSON.stringify(newJobData)
-    })
+
+import { serverMutation } from "@/lib/core/server"
 
 
-return res.json()
+export const createJob = async (newJobData)=>{
+    return serverMutation('/api/jobs',newJobData)
+
 }
+
+
+
 
 export const deleteJob = async (jobId) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/jobs/${jobId}`, {

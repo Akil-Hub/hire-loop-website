@@ -1,11 +1,15 @@
 import DeleteJobButton from '@/Components/common/DeleteJobButton';
+import { getLoggedInRecruiterCompany } from '@/lib/api/companies';
 import { getCompanyJobs } from '@/lib/api/jobs'
+import { getUserSession } from '@/lib/core/session';
 import { Chip, Table, Button } from "@heroui/react";
 import { FiEye, FiEdit2, FiTrash2 } from "react-icons/fi";
 
 const RecruiterJobs = async () => {
-  const companyId = '123' //todo
+  const recruiterCompany = await getLoggedInRecruiterCompany()
+  const companyId = recruiterCompany._id
   const jobs = await getCompanyJobs(companyId)
+  console.log('jobs',jobs)
 
   return (
     <div>RecruiterJobs
@@ -26,7 +30,7 @@ const RecruiterJobs = async () => {
                 <Table.ColumnResizer />
               </Table.Column>
               <Table.Column defaultWidth="1fr" id="companyId" minWidth={200}>
-                Company Id
+                Company Name
               </Table.Column>
               <Table.Column defaultWidth="1fr" id="actions" minWidth={200}>
                 Actions
@@ -34,7 +38,7 @@ const RecruiterJobs = async () => {
             </Table.Header>
 
             <Table.Body>
-              {jobs.map(({ _id, title, status, jobType, category }) => (
+              {jobs.map(({ _id, title, status, jobType, category,companyName }) => (
                 <Table.Row key={_id}>
                   <Table.Cell>{title}</Table.Cell>
                   <Table.Cell>{category}</Table.Cell>
@@ -47,7 +51,7 @@ const RecruiterJobs = async () => {
                       {status}
                     </Chip>
                   </Table.Cell>
-                  <Table.Cell>{companyId}</Table.Cell>
+                  <Table.Cell>{companyName}</Table.Cell>
                   <Table.Cell>
                     <div className="flex items-center gap-2">
                       <Button

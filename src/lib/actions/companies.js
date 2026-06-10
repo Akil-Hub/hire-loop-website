@@ -1,14 +1,13 @@
 'use server'
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
-export const  createCompany = async (newCompanyData) => {
-    const res = await fetch(`${baseUrl}/api/companies`, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify(newCompanyData)
-    })
+import { serverMutation } from "@/lib/core/server"
 
-    return res.json()
+
+ export const createCompany = async (newCompanyData)=>{
+return serverMutation('/api/companies',newCompanyData)
 }
+
+
+
+
+
