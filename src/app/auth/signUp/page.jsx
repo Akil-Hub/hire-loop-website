@@ -2,7 +2,7 @@
 import { Description, Radio, RadioGroup, toast } from "@heroui/react";
 
 import { Button, FieldError, Form, Input, Label, TextField } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
@@ -10,6 +10,9 @@ import { useState } from "react";
 
 export default function SignUpPage() {
   const [role, setRole] = useState("seeker")
+ const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const router = useRouter();
 
@@ -31,15 +34,10 @@ export default function SignUpPage() {
     return; // ← stop here
   }
 
-    console.log(data)
 
 
 
-
-
-
-
-    router.push("/auth/signIn");
+    router.push(redirectTo);
     toast.success('Account Created Successfully.')
   };
 
@@ -181,7 +179,7 @@ export default function SignUpPage() {
             <div className="mt-6 text-center space-y-4">
               <p className="text-zinc-400 text-sm">
                 Already have an account?
-                <Link href="/auth/signIn" className="text-blue-500 ml-2 hover:underline font-medium">
+                <Link href={`/auth/signIn?redirect=${redirectTo}`} className="text-blue-500 ml-2 hover:underline font-medium">
                   Sign In
                 </Link>
               </p>

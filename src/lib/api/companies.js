@@ -1,5 +1,5 @@
-import { serverFetch } from "@/lib/core/server"
-import { getUserSession } from "@/lib/core/session"
+import { serverFetch } from "@/lib/api/core/server"
+import { getUserSession } from "@/lib/api/core/session"
 
 
 export const getRecruiterCompany = async (recruiterId) => {
@@ -8,5 +8,5 @@ export const getRecruiterCompany = async (recruiterId) => {
 
 export const getLoggedInRecruiterCompany = async () => {
     const user = await getUserSession();
-return getRecruiterCompany(user?.id)
+    return getRecruiterCompany(user?.id)
 }

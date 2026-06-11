@@ -28,13 +28,14 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col dark overflow-x-hidden">
-        <Navbar/>
+        <Navbar />
 
-        <Toast.Provider placement="top"/>
-        
-        {children}
-        <Footer/>
-        </body>
+        <Toast.Provider placement="top" />
+
+        <div className="mt-20">
+          {children}
+        </div>        <Footer />
+      </body>
     </html>
   );
 }

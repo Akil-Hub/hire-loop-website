@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Description, FieldError, Form, Input, Label, TextField, toast } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -13,7 +13,12 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 export default function SignInPage() {
+  const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect') || '/';
+
   const router = useRouter();
+  
 
   const onSubmit = async(e) => {
     e.preventDefault();
@@ -29,15 +34,9 @@ const { data, error } = await authClient.signIn.email({
 });
 
 if (error) {
-  console.log(error)
-  
+  toast.error(error)
 }
-console.log(data)
-
-
-
-
-    router.push("/");
+    router.push(redirectTo);
     toast.success('Singn In Successfull.')
   };
 
@@ -170,7 +169,7 @@ console.log(data)
                 Don't' have an account?
 
                 <Link
-                  href="/auth/signUp"
+                 href={`/auth/signUp?redirect=${redirectTo}`} 
                   className="text-blue-500 ml-2 hover:underline font-medium"
                 >
                   Sign Up

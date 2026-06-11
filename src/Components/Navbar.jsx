@@ -37,17 +37,17 @@ export default function Navbar() {
                 {/* Desktop Nav Links */}
                 <ul className="hidden md:flex items-center gap-8">
                     <li>
-                        <Link href="#" className="text-sm text-white/80 hover:text-white transition-colors">
+                        <Link href="/jobs" className="text-sm text-white/80 hover:text-white transition-colors">
                             Browse Jobs
                         </Link>
                     </li>
                     <li>
-                        <Link href="#" className="text-sm text-white/80 hover:text-white transition-colors">
+                        <Link href="/dashboard/recruiter/company" className="text-sm text-white/80 hover:text-white transition-colors">
                             Company
                         </Link>
                     </li>
                     <li>
-                        <Link href="#" className="text-sm text-white/80 hover:text-white transition-colors">
+                        <Link href="/plans" className="text-sm text-white/80 hover:text-white transition-colors">
                             Pricing
                         </Link>
                     </li>

@@ -1,7 +1,7 @@
 import DeleteJobButton from '@/Components/common/DeleteJobButton';
 import { getLoggedInRecruiterCompany } from '@/lib/api/companies';
 import { getCompanyJobs } from '@/lib/api/jobs'
-import { getUserSession } from '@/lib/core/session';
+import { getUserSession } from '@/lib/api/core/session';
 import { Chip, Table, Button } from "@heroui/react";
 import { FiEye, FiEdit2, FiTrash2 } from "react-icons/fi";
 
@@ -9,7 +9,7 @@ const RecruiterJobs = async () => {
   const recruiterCompany = await getLoggedInRecruiterCompany()
   const companyId = recruiterCompany._id
   const jobs = await getCompanyJobs(companyId)
-  console.log('jobs',jobs)
+  console.log('jobs', jobs)
 
   return (
     <div>RecruiterJobs
@@ -38,7 +38,7 @@ const RecruiterJobs = async () => {
             </Table.Header>
 
             <Table.Body>
-              {jobs.map(({ _id, title, status, jobType, category,companyName }) => (
+              {jobs.map(({ _id, title, status, jobType, category, companyName }) => (
                 <Table.Row key={_id}>
                   <Table.Cell>{title}</Table.Cell>
                   <Table.Cell>{category}</Table.Cell>
@@ -77,7 +77,7 @@ const RecruiterJobs = async () => {
                         <FiEdit2 size={16} />
                       </Button>
                       <DeleteJobButton
-                        
+
                         jobId={_id}
                       >
                       </DeleteJobButton>
