@@ -1,8 +1,11 @@
 'use server'
 const baseUrl = process.env.EXPRESS_API_URL
 
-export const serverFetch = async (path) => {
-    const res = await fetch(`${baseUrl}${path}`)
+export const serverFetch = async (path,options={}) => {
+    const res = await fetch(`${baseUrl}${path}`,{
+        cache:'no-store',
+        ...options
+    })
     return res.json()
 }
 

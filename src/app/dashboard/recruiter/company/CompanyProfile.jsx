@@ -26,7 +26,7 @@ import {
 import { createCompany } from '@/lib/actions/companies'
 import Link from 'next/link'
 import { Recursive } from 'next/font/google'
-// import { createCompany, updateCompany } from '@/lib/actions/company'
+
 
 const INDUSTRIES = [
   'Technology', 'Healthcare', 'Finance', 'Education', 'Retail',
@@ -230,7 +230,7 @@ function NoCompanyView({ onRegister }) {
 }
 
 // ─── Company Form ─────────────────────────────────────────────────────────────
-function CompanyForm({ existing, onSuccess, onCancel,recruiter }) {
+function CompanyForm({ existing, onSuccess, onCancel,recruiter,company,setCompany }) {
   const fileInputRef = useRef(null)
   const isEditing = !!existing
 
@@ -290,10 +290,11 @@ function CompanyForm({ existing, onSuccess, onCancel,recruiter }) {
         status: isEditing && existing.status !== 'rejected' ? existing.status : 'approved',
         recruiterId:recruiter.id
       }
-      console.log(payload)
-    //   calling the createign api
+  
     const result = await createCompany(payload)
     if (result.insertedId) {
+      const savedCompany= {...company, _id:result.insertedId}
+      setCompany(savedCompany)
         toast.success('Compnay profile created successfully.')
         
     }
@@ -517,6 +518,8 @@ export default function CompanyProfile({ recruiterCompany,recruiter}) {
   if (showForm) {
     return (
       <CompanyForm
+      setCompany={setCompany}
+      company={company}
       recruiter={recruiter}
         existing={isEditing ? company : null}
         onSuccess={() => {

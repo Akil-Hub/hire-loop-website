@@ -2,6 +2,7 @@ import { stripe } from '@/lib/stripe'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight } from 'lucide-react'
+import { createSubscription } from '@/lib/actions/subscriptions'
 
 export default async function Success({ searchParams }) {
     const { session_id } = await searchParams
@@ -15,6 +16,7 @@ export default async function Success({ searchParams }) {
     const {
         status,
         customer_details: { email: customerEmail },
+        metadata
     } = await stripe.checkout.sessions.retrieve(
         session_id,
         {
@@ -27,6 +29,16 @@ export default async function Success({ searchParams }) {
     }
 
     if (status === 'complete') {
+        const subInfo = {
+            email:customerEmail,
+            planId:metadata.planId
+        }
+
+        // update the user tabel
+    const result = await createSubscription(subInfo)
+    console.log(result)
+
+
         return (
             <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-6">
                 <div className="max-w-2xl w-full">

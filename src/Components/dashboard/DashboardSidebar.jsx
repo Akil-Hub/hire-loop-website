@@ -1,13 +1,25 @@
 import { Button, Drawer } from "@heroui/react";
-import { Briefcase, FileMagnifier, LayoutSideContentLeft } from '@gravity-ui/icons';
+import { Bookmark, Briefcase, ChartBar, CreditCard, Factory, FileMagnifier, FileText, LayoutCellsLarge, LayoutSideContentLeft } from '@gravity-ui/icons';
 
 import { Bars, Bell, Envelope, Gear, House, Magnifier, Person, Search } from "@gravity-ui/icons";
 
 import Link from "next/link";
+import { getUserSession } from "@/lib/api/core/session";
 
 
 
-const navItems = [
+
+
+
+
+export async function DashboardSidebar () {
+
+
+
+const user =await getUserSession()
+
+
+    const recruiterNavLinks = [
     { icon: House, href: '/dashboard/recruiter', label: "Home" },
     { icon: FileMagnifier, href: '/dashboard/recruiter/jobs', label: "Jobs" },
     { icon: Bell, href: '/dashboard/recruiter/jobs/new', label: "Post A job" },
@@ -16,6 +28,33 @@ const navItems = [
     { icon: Person,  href: '/dashboard/recruiter/jobs/new',label: "Profile" },
     { icon: Gear, href: '/dashboard/recruiter/jobs/new', label: "Settings" },
 ];
+
+const seekerNavLinks = [
+    { icon: LayoutCellsLarge, href: '/dashboard/seeker', label: "Dashboard" },
+    { icon: Magnifier, href: '/dashboard/seeker/jobs', label: "Jobs" },
+    { icon: Bookmark, href: '/dashboard/seeker/saved', label: "Saved Jobs" },
+    { icon: FileText, href: '/dashboard/seeker/applications', label: "Applications" },
+    { icon: CreditCard, href: '/dashboard/seeker/billing', label: "Billing" },
+    { icon: Gear, href: '/dashboard/seeker/settings', label: "Settings" },
+]
+const adminNavLinks = [
+    { icon: House, href: '/dashboard/admin', label: "Dashboard" },
+    { icon: Person, href: '/dashboard/admin/users', label: "Users" },
+    { icon: Briefcase, href: '/dashboard/admin/jobs', label: "Jobs" },
+    { icon: FileText, href: '/dashboard/admin/applications', label: "Applications" },
+    { icon: Factory, href: '/dashboard/admin/companies', label: "Companies" },
+    { icon: CreditCard, href: '/dashboard/admin/plans', label: "Plans" },
+    { icon: ChartBar, href: '/dashboard/admin/analytics', label: "Analytics" },
+    { icon: Gear, href: '/dashboard/admin/settings', label: "Settings" },
+]
+
+const navLinksMap = {
+    seeker:seekerNavLinks,
+    recruiter:recruiterNavLinks,
+    admin:adminNavLinks,
+}
+
+const navItems = navLinksMap[user?.role || 'seeker']
 
 const navLinks = <nav className="flex flex-col gap-1">
     {navItems.map((item) => (
@@ -30,13 +69,6 @@ const navLinks = <nav className="flex flex-col gap-1">
         </Link>
     ))}
 </nav>
-
-
-
-
-export function DashboardSidebar() {
-
-
 
 
 

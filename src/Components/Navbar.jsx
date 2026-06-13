@@ -25,6 +25,33 @@ export default function Navbar() {
         });
     };
 
+    const navLinks = [
+        {
+            label: "Browser Jobs",
+            href: "/jobs",
+        },
+        {
+            label: "Companies",
+            href: "/companies",
+        },
+        {
+            label: "Pricing",
+            href: "/pricing",
+        },
+    ]
+    const dashboardLinks = {
+        seeker:'/dashboard/seeker',
+        recruiter:'/dashboard/recruiter',
+        admin:'/dashboard/admin',
+    }
+
+    if (user?.email) {
+        navLinks.push({
+            label:'Dashboard',
+            href:dashboardLinks[user?.role]
+        })
+        
+    }
     return (
         <nav className=" fixed left-0 right-0 mx-3 md:mx-6 backdrop-blur-3g rounded-xl top-3 z-40">
             <header className="mx-auto  flex h-16 max-w-7xl items-center justify-between px-6 rounded-2xl   bg-[#222222]/90 gap-5">
@@ -36,21 +63,14 @@ export default function Navbar() {
 
                 {/* Desktop Nav Links */}
                 <ul className="hidden md:flex items-center gap-8">
-                    <li>
-                        <Link href="/jobs" className="text-sm text-white/80 hover:text-white transition-colors">
-                            Browse Jobs
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/dashboard/recruiter/company" className="text-sm text-white/80 hover:text-white transition-colors">
-                            Company
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/plans" className="text-sm text-white/80 hover:text-white transition-colors">
-                            Pricing
-                        </Link>
-                    </li>
+
+                    {
+                        navLinks.map((link,idx) => <li key={idx}>
+                            <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
+                                {link.label}
+                            </Link>
+                        </li>)
+                    }
                 </ul>
 
                 {/* Desktop CTA */}
@@ -99,21 +119,13 @@ export default function Navbar() {
             {isMenuOpen && (
                 <div className="md:hidden border-t border-white/10 bg-[#1a1a2e]">
                     <ul className="flex flex-col px-6 py-4 gap-1">
-                        <li>
-                            <Link href="#" className="block py-2 text-sm text-white/80 hover:text-white transition-colors">
-                                Browse Jobs
+                        {
+                        navLinks.map(link => <li key={link.href}>
+                            <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
+                                {link.label}
                             </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block py-2 text-sm text-white/80 hover:text-white transition-colors">
-                                Company
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block py-2 text-sm text-white/80 hover:text-white transition-colors">
-                                Pricing
-                            </Link>
-                        </li>
+                        </li>)
+                    }
                         <li className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
                             <Link href="/auth/signIn" className="text-sm text-[#a78bfa] font-medium">
                                 Sign In

@@ -2,6 +2,7 @@ import JobApply from "@/app/jobs/[id]/apply/JobApply"
 import { getApplicationByApplicant } from "@/lib/api/applications"
 import { getUserSession } from "@/lib/api/core/session"
 import { getJobById } from "@/lib/api/jobs"
+import { getPlanById } from "@/lib/api/plans"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
@@ -30,13 +31,10 @@ const ApplyPage = async ({ params }) => {
         )
     }
 
-    const alreadyAppliedApplications = await getApplicationByApplicant(user?.id)
+    const alreadyAppliedApplications = await getApplicationByApplicant(user?.id,{cache:'no-store'})
     const job = await getJobById(id)
 
-    const plan = {
-        name: "Free",
-        maxApplicationsPerMonth: 3,
-    }
+    const plan = await getPlanById(user?.plan || "seeker_free")
 
     if (!job) {
         return (
@@ -55,10 +53,10 @@ const ApplyPage = async ({ params }) => {
 
     const appliedCount = alreadyAppliedApplications.length
     const percentage =
-        (appliedCount / plan.maxApplicationsPerMonth) * 100
+        (appliedCount / plan.maxApplicationPerMonth) * 100
 
     const limitReached =
-        appliedCount >= plan.maxApplicationsPerMonth
+        appliedCount >= plan.maxApplicationPerMonth
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
@@ -82,7 +80,7 @@ const ApplyPage = async ({ params }) => {
                             <p className="text-4xl font-bold">
                                 {appliedCount}
                                 <span className="text-zinc-500 text-2xl">
-                                    /{plan.maxApplicationsPerMonth}
+                                    /{plan.maxApplicationPerMonth}
                                 </span>
                             </p>
                         </div>

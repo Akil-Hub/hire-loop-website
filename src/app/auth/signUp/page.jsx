@@ -18,6 +18,10 @@ export default function SignUpPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+
+
+    const plan = role ==='seeker'?'seeker_free':'recruiter_free'
     const formData = Object.fromEntries(new FormData(e.currentTarget));
 
 
@@ -27,11 +31,12 @@ export default function SignUpPage() {
       email: formData.email,
       password: formData.password,
       role,
+      plan,
     });
 
  if (error) {
     toast.danger("Sign up failed", { description: error.message });
-    return; // ← stop here
+    return; 
   }
 
 

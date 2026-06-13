@@ -14,6 +14,7 @@ import {
 } from "@heroui/react";
 import { Link2, User, Phone, Mail, Send, Briefcase, Building2 } from "lucide-react";
 import { submitApplication } from "@/lib/actions/applications";
+import { useRouter } from "next/navigation";
 
 const fieldCls =
     "bg-white/5 border border-white/10 hover:border-violet-500/40 focus:border-violet-500 focus:outline-none rounded-xl text-sm text-white placeholder:text-white/30 transition-colors w-full";
@@ -31,6 +32,7 @@ const JobApply = ({ job, applicant }) => {
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
+    const router = useRouter()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,6 +59,7 @@ const JobApply = ({ job, applicant }) => {
             if (res.insertedId) {
                 toast.success('Application Submitted Successfully.')
                 setSubmitted(true);
+                router.refresh()
 
             }
         } catch (err) {

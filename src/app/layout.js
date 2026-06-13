@@ -30,7 +30,10 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col dark overflow-x-hidden">
         <Navbar />
 
-        <Toast.Provider placement="top" />
+        <Toast.Provider placement="top"
+          toastProps={{
+            timeout: 2000,
+          }} />
 
         <div className="mt-20">
           {children}
