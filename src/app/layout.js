@@ -31,9 +31,7 @@ export default function RootLayout({ children }) {
         <Navbar />
 
         <Toast.Provider placement="top"
-          toastProps={{
-            timeout: 2000,
-          }} />
+         />
 
         <div className="mt-20">
           {children}

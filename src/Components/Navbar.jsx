@@ -14,7 +14,6 @@ export default function Navbar() {
         data: session
     } = useSession()
     const user = session?.user || null
-    console.log(session)
     const handleSignOut = async () => {
         await authClient.signOut({
             fetchOptions: {

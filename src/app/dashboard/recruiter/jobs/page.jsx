@@ -9,7 +9,6 @@ const RecruiterJobs = async () => {
   const recruiterCompany = await getLoggedInRecruiterCompany()
   const companyId = recruiterCompany._id
   const jobs = await getCompanyJobs(companyId)
-  console.log('jobs', jobs)
 
   return (
     <div>RecruiterJobs

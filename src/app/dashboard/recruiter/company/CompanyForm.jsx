@@ -5,8 +5,8 @@ import { TextField, Input, TextArea, Label, FieldError, Select, ListBox, Button,
 import { OfficeBadge, Camera, XmarkShape, Pencil } from '@gravity-ui/icons'
 import { createCompany, updateCompany } from '@/lib/actions/companies'
 
-const INDUSTRIES = ['Technology','Healthcare','Finance','Education','Retail','Manufacturing','Media','Consulting','Real Estate','Other']
-const EMPLOYEE_RANGES = ['1-10 employees','11-50 employees','51-200 employees','201-500 employees','501-1000 employees','1000+ employees']
+const INDUSTRIES = ['Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing', 'Media', 'Consulting', 'Real Estate', 'Other']
+const EMPLOYEE_RANGES = ['1-10 employees', '11-50 employees', '51-200 employees', '201-500 employees', '501-1000 employees', '1000+ employees']
 
 async function uploadToImgBB(file) {
   const formData = new FormData()
@@ -23,10 +23,10 @@ export function CompanyForm({ existing, recruiter, onSuccess, onCancel }) {
   const fileInputRef = useRef(null)
   const isEditing = !!existing
 
-  const [logoFile, setLogoFile]       = useState(null)
+  const [logoFile, setLogoFile] = useState(null)
   const [logoPreview, setLogoPreview] = useState(existing?.logo ?? null)
-  const [isLoading, setIsLoading]     = useState(false)
-  const [errors, setErrors]           = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0]
@@ -43,10 +43,10 @@ export function CompanyForm({ existing, recruiter, onSuccess, onCancel }) {
     const formData = new FormData(form)
 
     const newErrors = {}
-    if (!formData.get('name'))          newErrors.name = 'Company name is required'
-    if (!formData.get('industry'))      newErrors.industry = 'Industry is required'
+    if (!formData.get('name')) newErrors.name = 'Company name is required'
+    if (!formData.get('industry')) newErrors.industry = 'Industry is required'
     if (!formData.get('employeeRange')) newErrors.employeeRange = 'Employee range is required'
-    if (Object.keys(newErrors).length)  return setErrors(newErrors)
+    if (Object.keys(newErrors).length) return setErrors(newErrors)
 
     setIsLoading(true)
     try {
@@ -54,14 +54,15 @@ export function CompanyForm({ existing, recruiter, onSuccess, onCancel }) {
       if (logoFile) logoUrl = await uploadToImgBB(logoFile)
 
       const payload = {
-        name:          formData.get('name'),
-        website:       formData.get('website'),
-        location:      formData.get('location'),
-        industry:      formData.get('industry'),
+        name: formData.get('name'),
+        website: formData.get('website'),
+        location: formData.get('location'),
+        industry: formData.get('industry'),
         employeeRange: formData.get('employeeRange'),
-        description:   formData.get('description'),
-        logo:          logoUrl,
-        recruiterId:   recruiter.id,
+        description: formData.get('description'),
+        logo: logoUrl,
+        recruiterId: recruiter.id,
+        recruiterEmail: recruiter.email,
         status: isEditing && existing.status !== 'rejected' ? existing.status : 'pending',
       }
 

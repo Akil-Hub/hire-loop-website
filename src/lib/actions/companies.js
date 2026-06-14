@@ -1,6 +1,7 @@
 'use server'
 
 import { serverMutation } from "@/lib/api/core/server"
+import { revalidatePath } from "next/cache"
 
 
 export const createCompany = async (newCompanyData) => {
@@ -11,13 +12,12 @@ export const createCompany = async (newCompanyData) => {
 
 
 
-// lib/actions/companies.js
-import { serverFetch } from '@/lib/api/core/server'
 
-export const updateCompany = async (id, payload) => {
-    return serverFetch(`/api/companies/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    })
+export const updateCompany = async (id, data) => {
+
+
+    const result = serverMutation(`/api/companies/${id}`,data,"PATCH")
+
+    revalidatePath('dashboard/admin/companies')
+    return result
 }
