@@ -50,7 +50,7 @@ const AdminCompaniesClient = ({ companies: initial }) => {
                                 Job Count
                             </Table.Column>
 
-                            <Table.Column defaultWidth="1fr" id="status" maxWidth={200}>
+                            <Table.Column defaultWidth="1fr" id="status" minWidth={200}>
                                 Status
                             </Table.Column>
                             <Table.Column defaultWidth="1fr" id="createdAt" minWidth={200}>
@@ -100,7 +100,7 @@ const AdminCompaniesClient = ({ companies: initial }) => {
                                     </Table.Cell>
 
                                     <Table.Cell>
-                                        {status === 'pending' ? (
+                                        {status === 'Pending' ? (
                                             <div className="flex items-center gap-2">
                                                 <Button
                                                     onClick={() => handleApprove(_id)}

@@ -63,7 +63,7 @@ export function CompanyForm({ existing, recruiter, onSuccess, onCancel }) {
         logo: logoUrl,
         recruiterId: recruiter.id,
         recruiterEmail: recruiter.email,
-        status: isEditing && existing.status !== 'rejected' ? existing.status : 'pending',
+        status: isEditing && existing.status !== 'Rejected' ? existing.status : 'Pending',
       }
 
       if (isEditing) {
