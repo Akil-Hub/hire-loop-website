@@ -1,5 +1,20 @@
 'use server'
+
+import { getUserToken } from "@/lib/api/core/session"
+
 const baseUrl = process.env.EXPRESS_API_URL
+
+// auth header for passing token into api call
+
+export const authHeader = async()=>{
+    const token = await getUserToken()
+    const header = token ? {
+        authorization : `Bearer ${token}`
+
+    }:{}
+    return header
+}
+
 
 export const serverFetch = async (path,options={}) => {
     const res = await fetch(`${baseUrl}${path}`,{
@@ -9,12 +24,22 @@ export const serverFetch = async (path,options={}) => {
     return res.json()
 }
 
+export const protectedFetch = async(path)=>{
+    const res = await fetch(`${baseUrl}${path}`,{
+    
+        headers: await authHeader()
+    })
+    return res.json()
+}
+
+
 
 export const serverMutation = async (path, data,method='POST') => {
     const res = await fetch(`${baseUrl}${path}`, {
         method:method,
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            ... await authHeader()
         },
         body: JSON.stringify(data)
     })

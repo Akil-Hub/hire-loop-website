@@ -10,6 +10,21 @@ export const getUserSession = async()=>{
     return session?.user || null
 }
 
+// get token from the  bettert auth session 
+
+export const getUserToken = async ()=>{
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+    return session?.session?.token || null
+}
+
+
+
+
+
+
+
 export const requireRole = async(role)=>{
     const user =await getUserSession()
 

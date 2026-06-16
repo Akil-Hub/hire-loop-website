@@ -31,7 +31,7 @@ export default function Navbar() {
         },
         {
             label: "Companies",
-            href: "/companies",
+            href: "/dashboard/admin/companies",
         },
         {
             label: "Pricing",

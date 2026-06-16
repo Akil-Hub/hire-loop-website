@@ -34,7 +34,9 @@ const { data, error } = await authClient.signIn.email({
 });
 
 if (error) {
-  toast.error(error)
+  console.log(error)
+  toast.danger('Sign In failed')
+  return
 }
     router.push(redirectTo);
     toast.success('Singn In Successfull.')

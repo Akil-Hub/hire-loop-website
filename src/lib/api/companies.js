@@ -1,4 +1,4 @@
-import { serverFetch } from "@/lib/api/core/server"
+import { protectedFetch, serverFetch } from "@/lib/api/core/server"
 import { getUserSession } from "@/lib/api/core/session"
 
 
@@ -13,6 +13,6 @@ export const getLoggedInRecruiterCompany = async () => {
 
 
 export const getAllCompanies= async()=>{
-    return serverFetch('/api/companies')
+    return protectedFetch('/api/companies')
 
 }
