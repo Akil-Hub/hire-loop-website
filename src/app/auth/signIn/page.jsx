@@ -146,7 +146,7 @@ if (error) {
             return "Password must contain at least one number";
           }
           return null;
-        }}
+        }} 
       >
         <Label>Password</Label>
         <Input placeholder="Enter your password" />

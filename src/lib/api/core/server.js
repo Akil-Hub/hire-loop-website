@@ -35,7 +35,8 @@ export const protectedFetch = async(path)=>{
 
 
 export const serverMutation = async (path, data,method='POST') => {
-    const res = await fetch(`${baseUrl}${path}`, {
+   try {
+     const res = await fetch(`${baseUrl}${path}`, {
         method:method,
         headers: {
             'content-type': 'application/json',
@@ -43,7 +44,7 @@ export const serverMutation = async (path, data,method='POST') => {
         },
         body: JSON.stringify(data)
     })
-
+console.log('server mutation errro ',res)
 
     if (!res.ok) {
         const text = await res.text();
@@ -52,4 +53,7 @@ export const serverMutation = async (path, data,method='POST') => {
 
 
     return res.json()
+   } catch (error) {
+    console.log(error)
+   }
 }
