@@ -4,17 +4,13 @@ import { headers } from "next/headers";
 export const getUserList = async (params) => {
 const users = await auth.api.listUsers({
     query: {
-        searchValue: "some name",
-        searchField: "name",
-        searchOperator: "contains",
-        limit: 100,
-        offset: 100,
-        sortBy: "name",
+   
+        sortBy: "createdAt",
         sortDirection: "desc",
-        filterField: "email",
-        filterValue: "hello@example.com",
-        filterOperator: "eq",
+        
     },
+
+    
     // This endpoint requires session cookies.
     headers: await headers(),
 });
