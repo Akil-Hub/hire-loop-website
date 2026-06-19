@@ -3,7 +3,7 @@
 import { getUserToken } from "@/lib/api/core/session"
 import { redirect } from "next/navigation"
 
-const baseUrl = process.env.EXPRESS_API_URL
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 // auth header for passing token into api call
 

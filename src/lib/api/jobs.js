@@ -1,7 +1,7 @@
 import { serverFetch } from "@/lib/api/core/server"
 
 
-const baseUrl = process.env.EXPRESS_API_URL
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 
 

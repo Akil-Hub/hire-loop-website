@@ -12,7 +12,7 @@ export const createJob = async (newJobData) => {
 
 
 export const deleteJob = async (jobId) => {
-    const res = await fetch(`${process.env.EXPRESS_API_URL}/api/jobs/${jobId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/jobs/${jobId}`, {
         method: 'DELETE',
     })
     return res.json()
