@@ -6,9 +6,11 @@ const nextConfig = {
       { protocol: "http", hostname: "**" },
     ],
   },
-  experimental: {
-serverComponentsExternalPackages: ['@better-auth/kysely-adapter'],
-},
+//   experimental: {
+// serverComponentsExternalPackages: ['@better-auth/kysely-adapter'],
+// },
+  // serverExternalPackages: ["@better-auth/kysely-adapter"],
+
 };
 
 export default nextConfig;
