@@ -30,7 +30,7 @@ export default function SignUpPage() {
       name: formData.name,
       email: formData.email,
       password: formData.password,
-      role,
+      requestedRole:role,
       plan,
     });
 
@@ -38,9 +38,6 @@ export default function SignUpPage() {
     toast.danger("Sign up failed", { description: error.message });
     return; 
   }
-
-
-
 
     router.push(redirectTo);
     toast.success('Account Created Successfully.')

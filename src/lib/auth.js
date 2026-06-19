@@ -31,6 +31,23 @@ export const auth = betterAuth({
     
     client
   }),
+  // lib/auth.js (add inside your betterAuth({ ... }) config)
+databaseHooks: {
+  user: {
+    create: {
+      before: async (user, ctx) => {
+        const requestedRole = ctx?.body?.requestedRole
+
+        return {
+          data: {
+            ...user,
+            role: requestedRole === "recruiter" ? "recruiter" : "seeker",
+          },
+        }
+      },
+    },
+  },
+},
  
 
 });
